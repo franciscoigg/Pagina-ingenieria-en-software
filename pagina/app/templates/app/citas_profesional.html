@@ -1,0 +1,48 @@
+{% extends "app/index.html" %}
+
+{% block content %}
+    <div class="container">
+        <h1>Mis Citas y Reseñas</h1>
+
+        <h2>Citas Programadas</h2>
+        {% if citas %}
+            <ul class="list-group">
+            {% for cita in citas %}
+                <li class="list-group-item">
+                    <p><strong>Paciente:</strong> {{ cita.paciente.username }}</p>
+                    <p><strong>Fecha:</strong> {{ cita.fecha }}</p>
+                    <p><strong>Hora:</strong> {{ cita.hora }}</p>
+                    <p><strong>Estado:</strong> {{ cita.get_estado_display }}</p>
+
+                    {% if cita.estado == 'confirmada' %}
+                        <!-- Botón para cancelar la cita -->
+                        <form method="POST" action="{% url 'cancelar_cita' cita.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">Cancelar Cita</button>
+                        </form>
+                    {% elif cita.estado == 'cancelada' %}
+                        <!-- Mensaje cuando la cita ya está cancelada -->
+                        <span class="text-muted">Esta cita ha sido cancelada.</span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>No tienes citas programadas.</p>
+        {% endif %}
+
+        <h2>Reseñas Recibidas</h2>
+        {% if reseñas %}
+            <ul class="list-group">
+            {% for reseña in reseñas %}
+                <li class="list-group-item">
+                    <strong>Calificación: {{ reseña.calificacion }}</strong><br>
+                    <em>{{ reseña.comentario }}</em>
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>No tienes reseñas.</p>
+        {% endif %}
+    </div>
+{% endblock %}

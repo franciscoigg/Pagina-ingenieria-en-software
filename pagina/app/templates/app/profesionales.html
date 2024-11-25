@@ -1,0 +1,28 @@
+{% extends "app/index.html" %}
+
+{% block content %}
+    <h1>Profesionales</h1>
+    
+    <div class="profesionales-list">
+        {% for profesional in profesionales %}
+            <div class="profesional">
+                <h2>{{ profesional.nombre }}</h2>
+                <p><strong>Especialidad:</strong> {{ profesional.especialidad }}</p>
+                <p><strong>Ubicación:</strong> {{ profesional.ubicacion }}</p>
+                <p><strong>Biografía:</strong> {{ profesional.biografia }}</p>
+                <p><strong>Disponibilidad:</strong> {{ profesional.disponibilidad }}</p>
+
+                {% if profesional.foto %}
+                    <img src="{{ profesional.foto.url }}" alt="Foto de {{ profesional.nombre }}" class="profesional-foto">
+                {% else %}
+                    <p>No hay foto disponible.</p>
+                {% endif %}
+                
+                <a href="{% url 'ver_profesional' profesional.id %}" class="btn btn-info">Ver perfil y reseñas</a>
+                <hr>
+            </div>
+        {% empty %}
+            <p>No hay profesionales disponibles.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

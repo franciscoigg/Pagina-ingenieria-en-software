@@ -1,0 +1,20 @@
+{% extends "app/index.html" %}
+
+{% block content %}
+    <div class="container">
+        <h1>Reseñas Recibidas</h1>
+
+        {% if reseñas %}
+            <ul class="list-group">
+            {% for reseña in reseñas %}
+                <li class="list-group-item">
+                    <strong>Calificación:</strong> {{ reseña.calificacion }}<br>
+                    <strong>Comentario:</strong> {{ reseña.comentario }}
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>No tienes reseñas.</p>
+        {% endif %}
+    </div>
+{% endblock %}

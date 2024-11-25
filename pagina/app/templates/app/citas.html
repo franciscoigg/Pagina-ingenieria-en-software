@@ -1,0 +1,44 @@
+{% extends 'app/index.html' %}
+
+{% block content %}
+    <div class="container">
+        <h1>Tus Citas Agendadas</h1>
+
+        <!-- Mostrar mensajes de éxito o error -->
+        {% if messages %}
+            <div class="alert alert-info">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if citas %}
+            <ul class="list-group">
+                {% for cita in citas %}
+                    <li class="list-group-item">
+                        <p><strong>Profesional:</strong> {{ cita.profesional.nombre }}</p>
+                        <p><strong>Fecha:</strong> {{ cita.fecha }}</p>
+                        <p><strong>Hora:</strong> {{ cita.hora }}</p>
+
+                        <!-- Mostrar solo un mensaje si la cita ha sido cancelada -->
+                        {% if cita.estado == 'cancelada' %}
+                            <span class="text-muted">Esta cita ha sido cancelada.</span>
+                        {% else %}
+                            <!-- Mostrar el botón de agregar reseña solo si la cita no ha sido cancelada -->
+                            <a class="btn btn-primary" href="{% url 'resena' cita_id=cita.id %}">Agregar Reseña</a>
+
+                            <!-- Mostrar el botón para cancelar la cita solo si no está cancelada -->
+                            <form method="POST" action="{% url 'cancelar_cita' cita.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Cancelar Cita</button>
+                            </form>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No tienes citas agendadas.</p>
+        {% endif %}
+    </div>
+{% endblock %}

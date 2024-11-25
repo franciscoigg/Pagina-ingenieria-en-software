@@ -1,0 +1,31 @@
+{% extends "app/index.html" %}
+
+{% block content %}
+    <h1>Perfil de {{ profesional.nombre }}</h1>
+    <p><strong>Especialidad:</strong> {{ profesional.especialidad }}</p>
+    <p><strong>Ubicación:</strong> {{ profesional.ubicacion }}</p>
+    <p><strong>Biografía:</strong> {{ profesional.biografia }}</p>
+    <p><strong>Disponibilidad:</strong> {{ profesional.disponibilidad }}</p>
+
+    {% if profesional.foto %}
+        <img src="{{ profesional.foto.url }}" alt="Foto de {{ profesional.nombre }}" class="profesional-foto">
+    {% else %}
+        <p>No hay foto disponible.</p>
+    {% endif %}
+
+    <hr>
+
+    <h2>Reseñas</h2>
+    {% if reseñas %}
+        <ul>
+        {% for reseña in reseñas %}
+            <li>
+                <p><strong>Calificación:</strong> {{ reseña.calificacion }}</p>
+                <p><strong>Comentario:</strong> {{ reseña.comentario }}</p>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No hay reseñas disponibles para este profesional.</p>
+    {% endif %}
+{% endblock %}
