@@ -156,3 +156,28 @@ def ver_resenas(request):
     else:
         # Si no es un profesional, redirige a sus citas
         return redirect('citas')
+    
+
+@login_required
+def confirmar_cita(request, cita_id):
+    # Verificar si el usuario es parte del staff
+    if not request.user.is_staff:
+        messages.error(request, "Solo los profesionales pueden confirmar citas.")
+        return redirect('citas')  # Redirigir a las citas del usuario (si no es un profesional)
+    
+    # Obtener la cita por su ID
+    cita = get_object_or_404(Cita, id=cita_id)
+    
+    # Verificar si el usuario autenticado es el profesional relacionado con la cita
+    if cita.profesional.user != request.user:
+        messages.error(request, "No tienes permisos para confirmar esta cita.")
+        return redirect('citas')  # Redirigir si el profesional no está relacionado
+
+    if request.method == 'POST':
+        # Confirmar la cita (cambiar su estado a 'confirmada')
+        cita.estado = 'confirmada'
+        cita.save()
+        messages.success(request, "La cita ha sido confirmada.")
+        return redirect('citas')  # Redirigir a las citas del profesional
+    
+    return render(request, 'app/confirmar_cita.html', {'cita': cita})

@@ -14,8 +14,18 @@
                     <p><strong>Hora:</strong> {{ cita.hora }}</p>
                     <p><strong>Estado:</strong> {{ cita.get_estado_display }}</p>
 
-                    {% if cita.estado == 'confirmada' %}
-                        <!-- Botón para cancelar la cita -->
+                    {% if cita.estado == 'pendiente' %}
+                        <!-- Botones para confirmar o cancelar la cita -->
+                        <form method="POST" action="{% url 'confirmar_cita' cita.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success btn-sm">Confirmar Cita</button>
+                        </form>
+                        <form method="POST" action="{% url 'cancelar_cita' cita.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">Cancelar Cita</button>
+                        </form>
+                    {% elif cita.estado == 'confirmada' %}
+                        <!-- Solo el botón para cancelar la cita -->
                         <form method="POST" action="{% url 'cancelar_cita' cita.id %}" style="display:inline;">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-danger btn-sm">Cancelar Cita</button>

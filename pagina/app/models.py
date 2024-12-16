@@ -26,21 +26,20 @@ class Profesional(models.Model):
     
     def __str__(self):
         return self.nombre
-
+    
 class Cita(models.Model):
-    paciente = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) 
+    paciente = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     profesional = models.ForeignKey(Profesional, on_delete=models.CASCADE)
     fecha = models.DateField()
     hora = models.TimeField()
     estado = models.CharField(
-        max_length=10,
-        choices=[('confirmada', 'Confirmada'), ('cancelada', 'Cancelada')],
-        default='confirmada'
+        max_length=15,
+        choices=[('pendiente', 'Pendiente'), ('confirmada', 'Confirmada'), ('cancelada', 'Cancelada')],
+        default='pendiente'
     )
 
     def __str__(self):
         return f"Cita con {self.profesional.nombre} para {self.paciente.username} el {self.fecha} a las {self.hora}"
-
 
 class Reseña(models.Model):
     cita = models.OneToOneField(Cita, on_delete=models.CASCADE)
