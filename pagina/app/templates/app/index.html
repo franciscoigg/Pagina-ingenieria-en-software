@@ -21,7 +21,7 @@
                         <a class="nav-link" href="{% url 'profesionales' %}">Profesionales</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'contacto' %}">Contactanos</a>
+                        <a class="nav-link" href="{% url 'contactanos' %}">Contactanos</a>
                     </li>
                     {% if user.is_authenticated %}
                         <li class="nav-item">
@@ -52,6 +52,7 @@
 
     <!-- Contenido dinámico -->
     <div class="container mt-4">
+        <h1>Bienvenido a la Plataforma de Salud Mental</h1>
         {% block content %}
         <!-- Este bloque será llenado por las plantillas-->
         {% endblock %}

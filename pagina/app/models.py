@@ -14,13 +14,13 @@ class Usuario(AbstractUser):
 
 class Profesional(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) 
-    nombre = models.CharField(max_length=100)
+    nombre = models.CharField(max_length=255)
     especialidad = models.CharField(max_length=100)
     ubicacion = models.CharField(max_length=100)
     biografia = models.TextField()
     disponibilidad = models.TextField()
     correo = models.EmailField()  
-    telefono = models.CharField(max_length=20)  
+    telefono = models.CharField(max_length=9)  
     descripcion = models.TextField() 
     foto = models.ImageField(upload_to='profesionales/', blank=True, null=True)
     
@@ -42,6 +42,6 @@ class Cita(models.Model):
         return f"Cita con {self.profesional.nombre} para {self.paciente.username} el {self.fecha} a las {self.hora}"
 
 class Reseña(models.Model):
-    cita = models.OneToOneField(Cita, on_delete=models.CASCADE)
+    cita = models.OneToOneField(Cita,related_name='reseñas', on_delete=models.CASCADE)
     calificacion = models.IntegerField()
     comentario = models.TextField()

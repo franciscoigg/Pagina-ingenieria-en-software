@@ -43,7 +43,7 @@ class Login(LoginView):
     authentication_form = EmailLoginForm
 
 def index(request):
-    return render(request, 'app/index.html')
+    return render(request, 'app/index.html',{'usuario': request.user})
 
 def profesionales(request):
     profesionales = Profesional.objects.all()  # Obtener todos los profesionales sin filtro
@@ -111,7 +111,7 @@ def agregar_profesional(request):
             return redirect('lista_profesionales')  # Redirige a una página donde se listan los profesionales
     else:
         form = ProfesionalForm()
-    return render(request, 'agregar_profesional.html', {'form': form})
+    return render(request, 'app/agregar_profesional.html', {'form': form})
 
 
 @login_required
